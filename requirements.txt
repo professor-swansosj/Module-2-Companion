@@ -1,0 +1,29 @@
+# Python packages required for Module 2: Netmiko Network Automation
+# Install with: pip install -r requirements.txt
+
+# Core networking library for SSH connections to network devices
+netmiko>=4.3.0
+
+# Template parsing library for structured data from network command output  
+ntc-templates>=5.0.0
+
+# Enhanced pretty printing for better output formatting
+pprint2>=0.1.0
+
+# Regular expressions (built-in, but good to note)
+# re - Built-in Python module for pattern matching
+
+# CSV handling (built-in, but good to note) 
+# csv - Built-in Python module for CSV file operations
+
+# JSON handling (built-in, but good to note)
+# json - Built-in Python module for JSON operations
+
+# YAML file parsing
+PyYAML>=6.0.1
+
+# Date and time handling (built-in, but good to note)
+# datetime - Built-in Python module
+
+# Additional useful libraries for network automation
+ipaddress>=1.0.23  # IP address manipulation (built-in in Python 3.3+)

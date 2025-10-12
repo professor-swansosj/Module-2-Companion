@@ -1,0 +1,104 @@
+{
+  "devices": [
+    {
+      "name": "Router1",
+      "device_type": "cisco_ios",
+      "host": "192.168.1.1",
+      "username": "admin",
+      "password": "cisco123",
+      "secret": "enable123",
+      "timeout": 20,
+      "location": "Main Office",
+      "model": "ISR4331",
+      "ios_version": "16.09.04"
+    },
+    {
+      "name": "Router2", 
+      "device_type": "cisco_ios",
+      "host": "192.168.1.2",
+      "username": "admin", 
+      "password": "cisco123",
+      "secret": "enable123",
+      "timeout": 20,
+      "location": "Branch Office",
+      "model": "ISR4321", 
+      "ios_version": "16.09.02"
+    },
+    {
+      "name": "Switch1",
+      "device_type": "cisco_ios", 
+      "host": "192.168.1.10",
+      "username": "admin",
+      "password": "cisco123", 
+      "secret": "enable123",
+      "timeout": 20,
+      "location": "Data Center",
+      "model": "Catalyst9300",
+      "ios_version": "16.12.05"
+    },
+    {
+      "name": "Switch2",
+      "device_type": "cisco_ios",
+      "host": "192.168.1.11", 
+      "username": "admin",
+      "password": "cisco123",
+      "secret": "enable123", 
+      "timeout": 20,
+      "location": "Access Layer",
+      "model": "Catalyst2960X",
+      "ios_version": "15.2(7)E"
+    }
+  ],
+  "loopback_interfaces": [
+    {
+      "number": 100,
+      "ip": "100.100.100.100",
+      "mask": "255.255.255.255", 
+      "description": "Management Loopback"
+    },
+    {
+      "number": 200,
+      "ip": "200.200.200.200", 
+      "mask": "255.255.255.255",
+      "description": "OSPF Router ID"
+    },
+    {
+      "number": 300,
+      "ip": "300.300.300.300",
+      "mask": "255.255.255.255",
+      "description": "BGP Router ID" 
+    },
+    {
+      "number": 400,
+      "ip": "10.1.1.1",
+      "mask": "255.255.255.255",
+      "description": "Backup Management"
+    },
+    {
+      "number": 500, 
+      "ip": "10.2.2.2",
+      "mask": "255.255.255.255",
+      "description": "Service Loopback"
+    }
+  ],
+  "commands": {
+    "show_commands": [
+      "show version",
+      "show ip interface brief", 
+      "show running-config",
+      "show ip route",
+      "show interface status",
+      "show vlan brief", 
+      "show cdp neighbors",
+      "show inventory",
+      "show processes cpu",
+      "show memory statistics"
+    ],
+    "config_commands": [
+      "interface loopback 99",
+      "ip address 99.99.99.99 255.255.255.255", 
+      "description Test Loopback Interface",
+      "no shutdown"
+    ]
+  }
+}
