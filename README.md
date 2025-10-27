@@ -4,84 +4,306 @@
 
 ## MODULE 2: Executing Commands with Netmiko
 
-Welcome to the Module 2 Companion Repository! This repository provides hands-on practice exercises and examples to accompany the instructional video for Module 2 of the Software Defined Networking course.
+Welcome to Module 2! This companion repository provides practice exercises for network automation with Python. You'll learn to connect to network devices and automate basic tasks.
 
 ### Prerequisites
 
-- Linux+ certification or equivalent knowledge
-- Introduction to Python (completed)
-- Cisco CCNA 1, 2, and 3 (completed)
-- This is your second Python course
+- Module 1: Python fundamentals (functions, objects, error handling, file I/O, JSON, YAML, CSV)
+- Basic networking knowledge (CCNA level)
+- Python development environment
 
 ### Learning Objectives
 
 By the end of this module, you will be able to:
 
-- Use Python's Netmiko library to connect to Cisco devices
-- Execute show and configuration commands remotely
-- Parse command output using various techniques
-- Implement error handling and best practices
-- Create formatted reports using f-strings
-- Structure code using functions and main() entry points
+- Set up Python virtual environments for network projects
+- Connect to network devices using Netmiko
+- Execute show and configuration commands
+- Handle raw output and format results
+- Parse structured data from network commands
+- Create basic network automation scripts
 
 ## Table of Contents
 
-1. [Setup and Installation](#setup-and-installation)
+1. [Virtual Environments and Requirements](#virtual-environments-and-requirements)
 2. [Introduction to Netmiko](#introduction-to-netmiko)
-3. [Using dir(), help(), and inspect](#using-dir-help-and-inspect)
-4. [Creating a Basic Connection Script](#creating-a-basic-connection-script)
-5. [Executing Show Commands](#executing-show-commands)
-6. [Executing Configuration Commands](#executing-configuration-commands)
-7. [Viewing Raw Output](#viewing-raw-output)
-8. [Pretty Printing Output](#pretty-printing-output)
-9. [Configuring Multiple Loopback Interfaces](#configuring-multiple-loopback-interfaces)
-10. [Parsing Raw Output](#parsing-raw-output)
-11. [Using NTC-Templates](#using-ntc-templates)
-12. [Introduction to F-Strings](#introduction-to-f-strings)
-13. [Formatting Multiple Device Commands](#formatting-multiple-device-commands)
-14. [Implementing Error Handling](#implementing-error-handling)
-15. [Creating Functions](#creating-functions)
-16. [Main Function Entry Point](#main-function-entry-point)
-17. [Complete Examples](#complete-examples)
+3. [Using help(), dir(), and inspect()](#using-help-dir-and-inspect)
+4. [Basic Connection with getpass](#basic-connection-with-getpass)
+5. [Show Commands and Raw Output](#show-commands-and-raw-output)
+6. [Pretty Printing Output](#pretty-printing-output)
+7. [Configuration Commands](#configuration-commands)
+8. [Working with Multiple Devices](#working-with-multiple-devices)
+9. [Parsing with TextFSM and NTC-Templates](#parsing-with-textfsm-and-ntc-templates)
+10. [F-Strings and Basic Reports](#f-strings-and-basic-reports)
 
 ---
 
-## Setup and Installation
+## Virtual Environments and Requirements
 
-### Required Python Packages
+Virtual environments keep your project dependencies separate from your system Python.
 
-```bash
-pip install -r requirements.txt
-```
-
-### Directory Structure
+### Setup Steps
 
 ```bash
-Module-2-Companion/
-├── README.md
-├── requirements.txt
-├── scripts/
-│   ├── 01_basic_connection/
-│   ├── 02_show_commands/
-│   ├── 03_config_commands/
-│   ├── 04_loopback_config/
-│   ├── 05_parsing/
-│   ├── 06_f_strings/
-│   ├── 07_error_handling/
-│   ├── 08_functions/
-│   └── 09_complete_examples/
-├── sample_data/
-│   ├── devices.json
-│   ├── device_configs.yaml
-│   ├── interfaces.csv
-│   └── commands.txt
-└── templates/
-    └── cisco_ios_show_version.textfsm
+# Create virtual environment
+python -m venv netmiko-env
+
+# Activate it
+# Windows:
+netmiko-env\Scripts\activate
+# Linux/Mac:
 ```
+
+**Key packages:**
+- `netmiko` - SSH to network devices  
+- `ntc-templates` - Parse command output
+- `PyYAML` - Work with YAML files
+
+**Practice:** Set up your environment and verify netmiko imports successfully.
 
 ---
 
 ## Introduction to Netmiko
+
+Netmiko is a Python library that simplifies SSH connections to network devices.
+
+### Basic Import and Connection
+
+```python
+from netmiko import ConnectHandler
+
+device = {
+    'device_type': 'cisco_ios',
+    'host': '192.168.1.1',
+    'username': 'your_username',
+    'password': 'your_password'
+}
+
+connection = ConnectHandler(**device)
+```
+
+**Practice:** Import netmiko and create a device dictionary for your lab device.
+
+---
+
+## Using help(), dir(), and inspect()
+
+Before diving deeper into netmiko, learn to explore Python objects yourself.
+
+### Essential Exploration Tools
+
+```python
+import netmiko
+from netmiko import ConnectHandler
+
+# See all available methods
+print(dir(ConnectHandler))
+
+# Get detailed help
+help(ConnectHandler.send_command)
+
+# Find methods with 'send' in the name
+methods = [m for m in dir(ConnectHandler) if 'send' in m]
+print(methods)
+```
+
+**Practice:** Use `help()` to explore `ConnectHandler.send_command()` and find what exceptions it might raise.
+
+---
+
+## Basic Connection with getpass
+
+Never hardcode passwords! Use `getpass` for secure credential input.
+
+### Secure Connection Example
+
+```python
+import getpass
+from netmiko import ConnectHandler
+
+# Get credentials securely
+host = input("Device IP: ")
+username = input("Username: ")
+password = getpass.getpass("Password: ")
+
+device = {
+    'device_type': 'cisco_ios',
+    'host': host,
+    'username': username,
+    'password': password
+}
+
+connection = ConnectHandler(**device)
+print("Connected!")
+connection.disconnect()
+```
+
+**Practice:** Create a connection script using getpass. Test it with your lab device.
+
+---
+
+## Show Commands and Raw Output
+
+Let's see what raw output looks like and why we need to format it.
+
+### Your First Commands
+
+```python
+# After connecting...
+output = connection.send_command('show version')
+print(output)  # This is raw output - messy!
+
+# Try these too
+print(connection.send_command('show ip interface brief'))
+```
+
+Notice how the raw output is hard to read? That's why we need formatting tools.
+
+**Practice:** Run several show commands and observe the raw output format.
+
+---
+
+## Pretty Printing Output
+
+Now let's make that output readable!
+
+### Using pprint
+
+```python
+from pprint import pprint
+
+# For better formatting
+output = connection.send_command('show version')
+print("="*50)
+print("FORMATTED OUTPUT")
+print("="*50)
+print(output)
+```
+
+**Practice:** Format the output of multiple show commands for better readability.
+
+---
+
+## Configuration Commands
+
+Configuration commands modify device settings. Handle with care!
+
+### Basic Config Example
+
+```python
+# Single command
+config_commands = ['interface loopback 100', 'ip address 100.100.100.100 255.255.255.255']
+output = connection.send_config_set(config_commands)
+print(output)
+```
+
+**Practice:** Configure a loopback interface on your lab device.
+
+---
+
+## Working with Multiple Devices
+
+Scale your automation by working with device lists.
+
+### Multiple Device Example
+
+```python
+devices = [
+    {'host': '192.168.1.1', 'username': 'admin', 'password': 'pass1'},
+    {'host': '192.168.1.2', 'username': 'admin', 'password': 'pass2'}
+]
+
+for device in devices:
+    device['device_type'] = 'cisco_ios'
+    conn = ConnectHandler(**device)
+    output = conn.send_command('show version')
+    print(f"Device {device['host']}: {output[:50]}...")
+    conn.disconnect()
+```
+
+**Practice:** Create a device list and gather version info from each.
+
+---
+
+## Parsing with TextFSM and NTC-Templates
+
+Raw text is hard to work with. Let's structure it!
+
+### Why Parse Output?
+
+Look at your raw `show version` output - it's just text. But what if you could get structured data instead?
+
+### Using NTC-Templates
+
+```python
+from ntc_templates.parse import parse_output
+
+# Get structured data instead of raw text
+output = connection.send_command('show version')
+parsed = parse_output(platform='cisco_ios', command='show version', data=output)
+
+# Now you have a list of dictionaries!
+print(parsed[0]['hostname'])
+print(parsed[0]['version'])
+```
+
+**Practice:** Parse `show ip interface brief` and extract just the interface names.
+
+---
+
+## F-Strings and Basic Reports
+
+Create professional output and save results to files.
+
+### Formatting with F-Strings
+
+```python
+hostname = parsed[0]['hostname']
+version = parsed[0]['version']
+uptime = parsed[0]['uptime']
+
+report = f"""
+Device Report
+=============
+Hostname: {hostname}
+Version:  {version}
+Uptime:   {uptime}
+"""
+
+print(report)
+
+# Save to file
+with open(f'{hostname}_report.txt', 'w') as f:
+    f.write(report)
+```
+
+**Practice:** Create a device inventory report and save it to a file.
+
+---
+
+## Next Steps
+
+You've learned the basics! Now practice by:
+
+1. Building a device inventory script
+2. Creating configuration backup automation  
+3. Monitoring interface status across multiple devices
+
+**Remember:** Start simple, then add complexity. Focus on one concept at a time.
+
+---
+
+## Practice Files
+
+Use the scripts in the `scripts/` directory to practice each concept:
+
+- `01_basic_connection/` - Connection basics
+- `02_show_commands/` - Command execution  
+- `03_config_commands/` - Configuration tasks
+- `04_parsing/` - TextFSM and parsing
+- `05_reports/` - F-strings and file output
+
+**Happy automating!** 🚀
 
 Netmiko is a multi-vendor Python library that simplifies SSH connections to network devices. It's built on top of Paramiko and provides a more user-friendly interface for network automation tasks.
 
@@ -123,6 +345,199 @@ print("Method signature:", inspect.signature(ConnectHandler.send_command))
 ```
 
 **Practice Exercise:** Run the script in `scripts/01_basic_connection/explore_netmiko.py`
+
+---
+
+## Handling Credentials Securely
+
+**NEVER** hardcode passwords in your scripts! Learn to handle credentials securely using environment variables and `getpass`.
+
+### Why Secure Credential Handling Matters
+
+- **Security**: Prevents passwords from being stored in source code
+- **Version Control**: Avoids accidentally committing credentials to Git
+- **Flexibility**: Different users can use different credentials
+- **Compliance**: Meets security best practices and organizational policies
+
+### Method 1: Using `getpass` (Recommended for Course)
+
+The `getpass` module prompts for passwords without displaying them on screen.
+
+```python
+import getpass
+from netmiko import ConnectHandler
+
+def get_device_credentials():
+    """Securely collect device credentials from user"""
+    host = input("Device IP Address: ")
+    username = input("Username: ")
+    password = getpass.getpass("Password: ")  # Hidden input
+    
+    # Optional: Enable password
+    enable_secret = getpass.getpass("Enable Secret (press Enter if none): ")
+    if not enable_secret:
+        enable_secret = None
+    
+    return {
+        'device_type': 'cisco_ios',
+        'host': host,
+        'username': username,
+        'password': password,
+        'secret': enable_secret,
+        'timeout': 20
+    }
+
+# Example usage
+device_params = get_device_credentials()
+print(f"Connecting to {device_params['host']} as {device_params['username']}...")
+
+try:
+    connection = ConnectHandler(**device_params)
+    print("✅ Connection successful!")
+    
+    # Your automation code here
+    output = connection.send_command('show clock')
+    print(output)
+    
+    connection.disconnect()
+except Exception as e:
+    print(f"❌ Connection failed: {e}")
+```
+
+### Method 2: Environment Variables
+
+Store credentials in environment variables for automated scripts.
+
+#### Setting Environment Variables
+
+**Windows (PowerShell):**
+```powershell
+# Set for current session
+$env:DEVICE_HOST = "192.168.1.1"
+$env:DEVICE_USERNAME = "admin"
+$env:DEVICE_PASSWORD = "yourpassword"
+
+# Set permanently (requires restart)
+[Environment]::SetEnvironmentVariable("DEVICE_HOST", "192.168.1.1", "User")
+```
+
+**Linux/macOS:**
+```bash
+# Set for current session
+export DEVICE_HOST="192.168.1.1"
+export DEVICE_USERNAME="admin"
+export DEVICE_PASSWORD="yourpassword"
+
+# Set permanently (add to ~/.bashrc or ~/.zshrc)
+echo 'export DEVICE_HOST="192.168.1.1"' >> ~/.bashrc
+```
+
+#### Using Environment Variables in Python
+
+```python
+import os
+from netmiko import ConnectHandler
+
+def get_device_from_env():
+    """Get device credentials from environment variables"""
+    return {
+        'device_type': 'cisco_ios',
+        'host': os.getenv('DEVICE_HOST'),
+        'username': os.getenv('DEVICE_USERNAME'),
+        'password': os.getenv('DEVICE_PASSWORD'),
+        'secret': os.getenv('DEVICE_ENABLE_SECRET'),  # Optional
+        'timeout': 20
+    }
+
+# Validate required environment variables
+device = get_device_from_env()
+required_vars = ['host', 'username', 'password']
+
+missing_vars = [var for var in required_vars if not device.get(var)]
+if missing_vars:
+    print(f"❌ Missing environment variables: {missing_vars}")
+    exit(1)
+
+print(f"Connecting to {device['host']} as {device['username']}...")
+```
+
+### Method 3: Hybrid Approach (Best of Both)
+
+Combine environment variables with getpass for maximum flexibility.
+
+```python
+import os
+import getpass
+from netmiko import ConnectHandler
+
+def get_secure_credentials():
+    """Get credentials from environment or prompt user"""
+    
+    # Try environment variables first
+    host = os.getenv('DEVICE_HOST') or input("Device IP Address: ")
+    username = os.getenv('DEVICE_USERNAME') or input("Username: ")
+    
+    # Always prompt for password (most secure)
+    password = getpass.getpass("Password: ")
+    
+    # Optional enable secret
+    enable_secret = os.getenv('DEVICE_ENABLE_SECRET')
+    if not enable_secret:
+        enable_secret = getpass.getpass("Enable Secret (press Enter if none): ")
+        if not enable_secret:
+            enable_secret = None
+    
+    return {
+        'device_type': 'cisco_ios',
+        'host': host,
+        'username': username,
+        'password': password,
+        'secret': enable_secret,
+        'timeout': 20
+    }
+
+# Usage
+device = get_secure_credentials()
+print(f"Connecting to {device['host']}...")
+```
+
+### Best Practices for Credential Security
+
+1. **Never hardcode passwords** in scripts
+2. **Use getpass for interactive scripts** (recommended for course exercises)
+3. **Use environment variables for automation** (CI/CD, scheduled scripts)
+4. **Always prompt for passwords** when possible
+5. **Consider using .env files** with python-dotenv for development
+6. **Use secret management tools** for production (HashiCorp Vault, Azure Key Vault)
+
+### Common getpass Patterns
+
+```python
+import getpass
+
+# Basic password prompt
+password = getpass.getpass()
+
+# Custom prompt
+password = getpass.getpass("Enter device password: ")
+
+# Handle KeyboardInterrupt (Ctrl+C)
+try:
+    password = getpass.getpass("Password: ")
+except KeyboardInterrupt:
+    print("\n❌ Operation cancelled by user")
+    exit(1)
+
+# Confirm password (for setup scripts)
+while True:
+    password = getpass.getpass("Password: ")
+    confirm = getpass.getpass("Confirm password: ")
+    if password == confirm:
+        break
+    print("❌ Passwords don't match. Try again.")
+```
+
+**Practice Exercise:** Modify your connection scripts to use `getpass` instead of hardcoded passwords.
 
 ---
 
@@ -267,7 +682,7 @@ def pretty_print_output(command, output):
     print(f"{'='*60}\n")
 ```
 
-**Practice Exercise:** Format output using `scripts/05_pretty_print/`
+
 
 ---
 
@@ -438,7 +853,83 @@ def generate_device_report(connection, hostname):
 
 ## Implementing Error Handling
 
-Robust scripts require proper error handling for network automation.
+Robust scripts require proper error handling for network automation. Before we implement error handling, let's learn how to explore Python objects and discover what exceptions might occur.
+
+### Exploring Objects with Built-in Tools
+
+Python provides three powerful built-in functions to explore objects and understand their capabilities:
+
+#### Using `help()`
+
+Provides detailed documentation about an object, including methods, parameters, and usage examples.
+
+```python
+from netmiko import ConnectHandler
+
+# Get comprehensive help about ConnectHandler
+help(ConnectHandler)
+
+# Get help for a specific method
+help(ConnectHandler.send_command)
+```
+
+#### Using `dir()`
+
+Returns a list of all attributes and methods available on an object.
+
+```python
+# See all available methods and attributes
+print(dir(ConnectHandler))
+
+# Filter for methods that contain 'send'
+methods = [method for method in dir(ConnectHandler) if 'send' in method]
+print("Send methods:", methods)
+```
+
+#### Using `inspect`
+
+Provides detailed information about objects, including source code and method signatures.
+
+```python
+import inspect
+
+# Get the method signature
+signature = inspect.signature(ConnectHandler.send_command)
+print("Method signature:", signature)
+
+# Get source code (if available)
+try:
+    source = inspect.getsource(ConnectHandler.send_command)
+    print("Source code:", source)
+except:
+    print("Source code not available")
+```
+
+### Discovering Netmiko Exceptions
+
+Let's use these tools to discover what exceptions Netmiko might raise:
+
+```python
+from netmiko import exceptions
+
+# Explore available exceptions
+print("Available Netmiko exceptions:")
+for name in dir(exceptions):
+    if not name.startswith('_'):  # Skip private attributes
+        exception_class = getattr(exceptions, name)
+        if isinstance(exception_class, type) and issubclass(exception_class, Exception):
+            print(f"- {name}")
+
+# Get help on a specific exception
+help(exceptions.NetmikoTimeoutException)
+```
+
+**Key Netmiko Exceptions to Handle:**
+
+- `NetmikoTimeoutException` - Connection or command timeouts
+- `NetmikoAuthenticationException` - Login failures
+- `SSHException` - SSH connection problems
+- `ValueError` - Invalid parameters
 
 ### Connection Error Handling
 
@@ -447,29 +938,71 @@ from netmiko import ConnectHandler
 from netmiko.exceptions import NetmikoTimeoutException, NetmikoAuthenticationException
 
 def safe_connect(device_params):
+    """Safely connect to a device with comprehensive error handling"""
     try:
+        print(f"Attempting to connect to {device_params.get('host', 'unknown host')}...")
         connection = ConnectHandler(**device_params)
+        print("✅ Connection successful!")
         return connection, None
-    except NetmikoTimeoutException:
-        return None, "Connection timed out"
-    except NetmikoAuthenticationException:
-        return None, "Authentication failed"
-    except Exception as e:
-        return None, f"Unexpected error: {str(e)}"
+        
+    except NetmikoTimeoutException as e:
+        error_msg = f"❌ Connection timed out: {str(e)}"
+        return None, error_msg
+
+# Example usage
+device = {
+    'device_type': 'cisco_ios',
+    'host': '192.168.1.1',
+    'username': 'admin',
+    'password': 'password'
+}
+
+connection, error = safe_connect(device)
+if connection:
+    # Continue with your automation
+    pass
+else:
+    print(f"Failed to connect: {error}")
 ```
 
 ### Command Error Handling
 
 ```python
-def safe_send_command(connection, command):
+def safe_send_command(connection, command, **kwargs):
+    """Safely execute a command with error handling"""
     try:
-        output = connection.send_command(command, expect_string='#')
+        print(f"Executing command: {command}")
+        output = connection.send_command(command, **kwargs)
         return output, None
+        
     except Exception as e:
-        return None, f"Command failed: {str(e)}"
+        error_msg = f"Command '{command}' failed: {str(e)}"
+        return None, error_msg
+
+# Example usage
+if connection:
+    output, error = safe_send_command(connection, 'show version')
+    if output:
+        print("Command output:", output[:100] + "...")  # Show first 100 chars
+    else:
+        print(f"Command failed: {error}")
 ```
 
-**Practice Exercise:** Add error handling in `scripts/11_error_handling/`
+### Practice Exercise: Explore and Handle
+
+**Your Task:** Use `help()`, `dir()`, and `inspect` to explore the `send_config_set()` method, then create error handling for it.
+
+```python
+# 1. Explore the method
+help(ConnectHandler.send_config_set)
+print(dir(ConnectHandler))
+print(inspect.signature(ConnectHandler.send_config_set))
+
+# 2. Create your own safe_send_config_set() function
+# Use the patterns above as a guide!
+```
+
+**Practice Exercise:** Complete the error handling exercises in `scripts/07_error_handling/`
 
 ---
 
