@@ -1,194 +1,358 @@
-# Software Defined Networking - Module 2 Companion
+# Module 2 Companion - Network Automation with Netmiko# Software Defined Networking - Module 2 Companion
 
-## Course: Network Automation with Python
+> **Practice Network Automation!** This companion repository provides hands-on exercises to master SSH connections, command execution, and output processing with network devices.## Course: Network Automation with Python
 
-## MODULE 2: Executing Commands with Netmiko
+## Purpose## MODULE 2: Executing Commands with Netmiko
 
-Welcome to Module 2! This companion repository provides practice exercises for network automation with Python. You'll learn to connect to network devices and automate basic tasks.
+This companion supports Module 2 of the FSCJ Network Automation course. You'll build practical skills connecting to network devices, executing commands, and processing output - the foundation of network automation.Welcome to Module 2! This companion repository provides practice exercises for network automation with Python. You'll learn to connect to network devices and automate basic tasks.
 
-### Prerequisites
+## Prerequisites### Prerequisites
 
-- Module 1: Python fundamentals (functions, objects, error handling, file I/O, JSON, YAML, CSV)
-- Basic networking knowledge (CCNA level)
-- Python development environment
+- **Module 1 Complete**: Python fundamentals (functions, objects, error handling, file I/O, JSON, YAML)- Module 1: Python fundamentals (functions, objects, error handling, file I/O, JSON, YAML, CSV)
 
-### Learning Objectives
+- **Networking Knowledge**: CCNA-level understanding of routers, switches, and CLI commands- Basic networking knowledge (CCNA level)
 
-By the end of this module, you will be able to:
+- **Lab Access**: SSH-enabled Cisco device (physical lab or DevNet Sandbox)- Python development environment
 
-- Set up Python virtual environments for network projects
-- Connect to network devices using Netmiko
+## Quick Setup### Learning Objectives
+
+```bashBy the end of this module, you will be able to:
+
+# Clone and enter directory
+
+git clone <your-repo-url>- Set up Python virtual environments for network projects
+
+cd Module-2-Companion- Connect to network devices using Netmiko
+
 - Execute show and configuration commands
-- Handle raw output and format results
-- Parse structured data from network commands
+
+# Create virtual environment  - Handle raw output and format results
+
+python -m venv netmiko-env- Parse structured data from network commands
+
 - Create basic network automation scripts
 
-## Table of Contents
+# Activate virtual environment
 
-1. [Virtual Environments and Requirements](#virtual-environments-and-requirements)
-2. [Introduction to Netmiko](#introduction-to-netmiko)
+# Windows:## Table of Contents
+
+netmiko-env\Scripts\activate
+
+# macOS/Linux:1. [Virtual Environments and Requirements](#virtual-environments-and-requirements)
+
+source netmiko-env/bin/activate2. [Introduction to Netmiko](#introduction-to-netmiko)
+
 3. [Using help(), dir(), and inspect()](#using-help-dir-and-inspect)
-4. [Basic Connection with getpass](#basic-connection-with-getpass)
-5. [Show Commands and Raw Output](#show-commands-and-raw-output)
+
+# Install dependencies4. [Basic Connection with getpass](#basic-connection-with-getpass)
+
+pip install -r requirements.txt5. [Show Commands and Raw Output](#show-commands-and-raw-output)
+
 6. [Pretty Printing Output](#pretty-printing-output)
-7. [Configuration Commands](#configuration-commands)
-8. [Working with Multiple Devices](#working-with-multiple-devices)
-9. [Parsing with TextFSM and NTC-Templates](#parsing-with-textfsm-and-ntc-templates)
+
+# Test installation7. [Configuration Commands](#configuration-commands)
+
+python -c "import netmiko; print('Netmiko ready!')"8. [Working with Multiple Devices](#working-with-multiple-devices)
+
+```9. [Parsing with TextFSM and NTC-Templates](#parsing-with-textfsm-and-ntc-templates)
+
 10. [F-Strings and Basic Reports](#f-strings-and-basic-reports)
 
+## Learning Objectives
+
 ---
+
+By completing this companion, you will:
 
 ## Virtual Environments and Requirements
 
-Virtual environments keep your project dependencies separate from your system Python.
+- **Connect securely** to network devices using SSH and proper credential handling
 
-### Setup Steps
+- **Execute commands** (show and configuration) on network equipmentVirtual environments keep your project dependencies separate from your system Python.
+
+- **Process output** from raw text to structured data
+
+- **Handle errors** gracefully in network automation scripts### Setup Steps
+
+- **Build reports** with formatted output and file generation
 
 ```bash
-# Create virtual environment
+
+## Estimated Time# Create virtual environment
+
 python -m venv netmiko-env
 
-# Activate it
-# Windows:
-netmiko-env\Scripts\activate
-# Linux/Mac:
-```
+**Total: 8-12 hours** across one week
 
-**Key packages:**
+# Activate it
+
+- Initial setup and exploration: 2 hours# Windows:
+
+- Connection and command practice: 3-4 hours  netmiko-env\Scripts\activate
+
+- Parsing and formatting: 2-3 hours# Linux/Mac:
+
+- Advanced techniques and projects: 3-4 hours```
+
+
+
+## Module Structure**Key packages:**
+
 - `netmiko` - SSH to network devices  
-- `ntc-templates` - Parse command output
+
+Work through these topics sequentially. Each builds on the previous:- `ntc-templates` - Parse command output
+
 - `PyYAML` - Work with YAML files
 
-**Practice:** Set up your environment and verify netmiko imports successfully.
+### [01_exploration](./01_exploration/) - Object Discovery (1 hour)
 
----
+**Why this matters:** Before using any library, you need to explore its capabilities.**Practice:** Set up your environment and verify netmiko imports successfully.
+
+- Use `dir()`, `help()`, and `inspect()` to understand objects
+
+- Discover Netmiko's methods and capabilities---
+
+- Learn self-sufficient exploration techniques
 
 ## Introduction to Netmiko
 
-Netmiko is a Python library that simplifies SSH connections to network devices.
+### [02_secure_connection](./02_secure_connection/) - SSH Authentication (1-2 hours)  
 
-### Basic Import and Connection
+**Why this matters:** Security is fundamental - never hardcode passwords.Netmiko is a Python library that simplifies SSH connections to network devices.
+
+- Implement secure credential handling with `getpass`
+
+- Establish SSH connections to network devices### Basic Import and Connection
+
+- Test connectivity and handle authentication
 
 ```python
-from netmiko import ConnectHandler
 
-device = {
-    'device_type': 'cisco_ios',
-    'host': '192.168.1.1',
+### [03_show_commands](./03_show_commands/) - Command Execution (2 hours)from netmiko import ConnectHandler
+
+**Why this matters:** Most automation starts with gathering device information.
+
+- Execute read-only show commandsdevice = {
+
+- Understand raw output challenges    'device_type': 'cisco_ios',
+
+- Run commands efficiently across devices    'host': '192.168.1.1',
+
     'username': 'your_username',
-    'password': 'your_password'
-}
 
-connection = ConnectHandler(**device)
-```
+### [04_pretty_printing](./04_pretty_printing/) - Output Formatting (1 hour)    'password': 'your_password'
 
-**Practice:** Import netmiko and create a device dictionary for your lab device.
+**Why this matters:** Raw output is hard to read and process.}
 
----
+- Format command output for readability
 
-## Using help(), dir(), and inspect()
+- Use Python's pprint for structured dataconnection = ConnectHandler(**device)
 
-Before diving deeper into netmiko, learn to explore Python objects yourself.
+- Create professional-looking reports```
 
-### Essential Exploration Tools
 
-```python
+
+### [05_config_commands](./05_config_commands/) - Configuration Changes (2 hours)**Practice:** Import netmiko and create a device dictionary for your lab device.
+
+**Why this matters:** Automation's power is in making changes safely and consistently.
+
+- Execute configuration commands securely---
+
+- Handle configuration mode properly
+
+- Implement safety checks and rollback## Using help(), dir(), and inspect()
+
+
+
+### [06_parsing](./06_parsing/) - Structured Data (2-3 hours)Before diving deeper into netmiko, learn to explore Python objects yourself.
+
+**Why this matters:** Converting text to data enables programmatic processing.
+
+- Parse raw text output into structured data### Essential Exploration Tools
+
+- Use regular expressions for pattern matching
+
+- Leverage NTC-Templates for common commands```python
+
 import netmiko
-from netmiko import ConnectHandler
 
-# See all available methods
-print(dir(ConnectHandler))
+### [07_reports](./07_reports/) - Professional Output (1-2 hours)from netmiko import ConnectHandler
+
+**Why this matters:** Clear reports communicate results effectively.
+
+- Generate formatted reports with f-strings# See all available methods
+
+- Save results to filesprint(dir(ConnectHandler))
+
+- Create dashboards and summaries
 
 # Get detailed help
-help(ConnectHandler.send_command)
 
-# Find methods with 'send' in the name
+## 🎯 Practice Approachhelp(ConnectHandler.send_command)
+
+
+
+Each module follows this pattern:# Find methods with 'send' in the name
+
 methods = [m for m in dir(ConnectHandler) if 'send' in m]
-print(methods)
-```
 
-**Practice:** Use `help()` to explore `ConnectHandler.send_command()` and find what exceptions it might raise.
+1. **Read the README** - Understand concepts and see minimal examplesprint(methods)
+
+2. **Complete the starter files** - Fill in TODOs to make scripts functional  ```
+
+3. **Try the "Try It" challenges** - Extend and modify the examples
+
+4. **Check yourself** - Answer review questions**Practice:** Use `help()` to explore `ConnectHandler.send_command()` and find what exceptions it might raise.
+
+5. **Experiment freely** - This is your playground!
 
 ---
+
+## Lab Equipment
 
 ## Basic Connection with getpass
 
+### Recommended: DevNet Sandbox
+
 Never hardcode passwords! Use `getpass` for secure credential input.
+
+Free Cisco lab environment - no hardware needed!
 
 ### Secure Connection Example
 
-```python
-import getpass
-from netmiko import ConnectHandler
+1. Visit [DevNet Sandbox](https://devnetsandbox.cisco.com/)
 
-# Get credentials securely
+2. Reserve "IOS XE on CSR Recommended Code" sandbox```python
+
+3. Use provided credentials and IP addressimport getpass
+
+4. SSH access available immediatelyfrom netmiko import ConnectHandler
+
+
+
+### Alternative: Physical Lab# Get credentials securely
+
 host = input("Device IP: ")
-username = input("Username: ")
-password = getpass.getpass("Password: ")
 
-device = {
+If you have access to physical Cisco equipment:username = input("Username: ")
+
+- Any Cisco router or switch with SSH enabledpassword = getpass.getpass("Password: ")
+
+- Management IP address configured
+
+- Valid user credentials with appropriate privilegesdevice = {
+
     'device_type': 'cisco_ios',
-    'host': host,
-    'username': username,
-    'password': password
-}
 
-connection = ConnectHandler(**device)
+### Minimum Device Requirements    'host': host,
+
+    'username': username,
+
+- SSH server enabled (`ip ssh version 2`)    'password': password
+
+- Local user account or AAA authentication}
+
+- Management interface with IP connectivity
+
+- Basic IOS command set (show commands, configuration)connection = ConnectHandler(**device)
+
 print("Connected!")
-connection.disconnect()
+
+## Getting Helpconnection.disconnect()
+
 ```
+
+### Troubleshooting Common Issues
 
 **Practice:** Create a connection script using getpass. Test it with your lab device.
 
----
+**Connection Problems:**
 
-## Show Commands and Raw Output
+- Verify device IP and SSH connectivity: `ping <device-ip>`---
 
-Let's see what raw output looks like and why we need to format it.
+- Test SSH manually: `ssh username@device-ip`
 
-### Your First Commands
+- Check credentials and enable password## Show Commands and Raw Output
+
+**Import Errors:**Let's see what raw output looks like and why we need to format it.
+
+- Ensure virtual environment is activated
+
+- Reinstall requirements: `pip install -r requirements.txt`### Your First Commands
+
+- Check Python version compatibility
 
 ```python
-# After connecting...
-output = connection.send_command('show version')
-print(output)  # This is raw output - messy!
+
+**Permission Issues:**# After connecting...
+
+- Verify user has appropriate device privilegesoutput = connection.send_command('show version')
+
+- Check if enable mode is requiredprint(output)  # This is raw output - messy!
+
+- Confirm SSH access is allowed
 
 # Try these too
-print(connection.send_command('show ip interface brief'))
+
+### Resourcesprint(connection.send_command('show ip interface brief'))
+
 ```
 
-Notice how the raw output is hard to read? That's why we need formatting tools.
+- **Course Discussion Forum**: Post questions and help classmates
 
-**Practice:** Run several show commands and observe the raw output format.
+- **Office Hours**: Schedule time with instructorNotice how the raw output is hard to read? That's why we need formatting tools.
 
----
+- **DevNet Community**: [developer.cisco.com](https://developer.cisco.com)
 
-## Pretty Printing Output
+- **Netmiko Documentation**: [github.com/ktbyers/netmiko](https://github.com/ktbyers/netmiko)**Practice:** Run several show commands and observe the raw output format.
 
-Now let's make that output readable!
+## Success Criteria---
 
-### Using pprint
+By the end of this module, you should be able to:## Pretty Printing Output
 
-```python
-from pprint import pprint
+- [ ] Connect to network devices securely without hardcoded passwordsNow let's make that output readable!
 
-# For better formatting
+- [ ] Execute both show and configuration commands successfully  
+
+- [ ] Parse command output to extract specific information### Using pprint
+
+- [ ] Handle common errors gracefully (timeouts, authentication failures)
+
+- [ ] Generate formatted reports and save them to files```python
+
+- [ ] Build a complete device inventory or configuration scriptfrom pprint import pprint
+
+## Next Steps# For better formatting
+
 output = connection.send_command('show version')
-print("="*50)
+
+After completing this companion:print("="*50)
+
 print("FORMATTED OUTPUT")
-print("="*50)
-print(output)
-```
 
-**Practice:** Format the output of multiple show commands for better readability.
+1. **Module 3**: Advanced automation with APIs and templatingprint("="*50)
 
----
+2. **Capstone Project**: Build a comprehensive network management toolprint(output)
 
-## Configuration Commands
+3. **Certification**: Consider Cisco DevNet Associate certification```
+
+## Repository Notes**Practice:** Format the output of multiple show commands for better readability
+
+- **No sample data included** - you'll generate real data from your lab devices---
+
+- **Starter files only** - complete the TODOs to make scripts functional
+
+- **Progressive difficulty** - each module builds on previous concepts## Configuration Commands
+
+- **Real-world focus** - all examples mirror actual network operations
 
 Configuration commands modify device settings. Handle with care!
 
+---
+
 ### Basic Config Example
+
+**Ready to automate your network?** Start with [01_exploration](./01_exploration/) and begin your journey into network programmability!
 
 ```python
 # Single command
@@ -411,6 +575,7 @@ Store credentials in environment variables for automated scripts.
 #### Setting Environment Variables
 
 **Windows (PowerShell):**
+
 ```powershell
 # Set for current session
 $env:DEVICE_HOST = "192.168.1.1"
@@ -422,6 +587,7 @@ $env:DEVICE_PASSWORD = "yourpassword"
 ```
 
 **Linux/macOS:**
+
 ```bash
 # Set for current session
 export DEVICE_HOST="192.168.1.1"
@@ -682,8 +848,6 @@ def pretty_print_output(command, output):
     print(f"{'='*60}\n")
 ```
 
-
-
 ---
 
 ## Configuring Multiple Loopback Interfaces
@@ -754,7 +918,7 @@ ip_addresses = re.findall(ip_pattern, output)
 
 ---
 
-## Using NTC-Templates
+## Structured Data with NTC-Templates
 
 NTC-Templates provide structured parsing for common network commands.
 
