@@ -1,21 +1,21 @@
 # Module 2 Companion - Network Automation with Netmiko
 
+## Software Defined Networking Course
+
 > **Practice Network Automation!** This companion repository provides hands-on exercises to master SSH connections, command execution, and output processing with network devices.
 
-## Course: Network Automation with Python
-
-### MODULE 2: Executing Commands with Netmiko
+## 🎯 What You'll Practice
 
 This companion supports Module 2 of the FSCJ Network Automation course. You'll build practical skills connecting to network devices, executing commands, and processing output - the foundation of network automation.
 
-## Prerequisites
+## 📋 Prerequisites
 
 - **Module 1 Complete**: Python fundamentals (functions, objects, error handling, file I/O, JSON, YAML, CSV)
 - **Networking Knowledge**: CCNA-level understanding of routers, switches, and CLI commands
 - **Lab Access**: SSH-enabled Cisco device (physical lab or DevNet Sandbox)
 - **Python Development Environment**: Python 3.7+ with virtual environment support
 
-## Quick Setup
+## 🚀 Quick Setup
 
 ```bash
 # Clone and enter directory
@@ -38,7 +38,7 @@ pip install -r requirements.txt
 python -c "import netmiko; print('Netmiko ready!')"
 ```
 
-## Learning Objectives
+## 📚 Learning Objectives
 
 By the end of this module, you will be able to:
 
@@ -49,9 +49,9 @@ By the end of this module, you will be able to:
 - Parse structured data from network commands
 - Create basic network automation scripts
 
-## Table of Contents
+## 📖 Table of Contents
 
-1. [Module Structure](#module-structure)
+1. [Learning Path](#-learning-path)
 2. [Virtual Environments and Requirements](#virtual-environments-and-requirements)
 3. [Introduction to Netmiko](#introduction-to-netmiko)
 4. [Using help(), dir(), and inspect()](#using-help-dir-and-inspect)
@@ -63,7 +63,7 @@ By the end of this module, you will be able to:
 10. [Parsing with TextFSM and NTC-Templates](#parsing-with-textfsm-and-ntc-templates)
 11. [F-Strings and Basic Reports](#f-strings-and-basic-reports)
 
-## Estimated Time
+## ⏰ Estimated Time
 
 **Total: 8-12 hours** across one week
 
@@ -72,7 +72,7 @@ By the end of this module, you will be able to:
 - Parsing and formatting: 2-3 hours
 - Advanced techniques and projects: 3-4 hours
 
-## Module Structure
+## 🗂 Learning Path
 
 Work through these topics sequentially. Each builds on the previous:
 
@@ -132,7 +132,7 @@ Work through these topics sequentially. Each builds on the previous:
 - Save results to files
 - Create dashboards and summaries
 
-## 🎯 Practice Approach
+## 🎯 Practice Callouts
 
 Each module follows this pattern:
 
@@ -142,11 +142,9 @@ Each module follows this pattern:
 4. **Check yourself** - Answer review questions
 5. **Experiment freely** - This is your playground!
 
----
+## 🔧 Lab Equipment
 
-## Lab Equipment
-
-### Recommended: DevNet Sandbox
+### DevNet Sandbox (Recommended)
 
 Free Cisco lab environment - no hardware needed!
 
@@ -155,7 +153,7 @@ Free Cisco lab environment - no hardware needed!
 3. Use provided credentials and IP address
 4. SSH access available immediately
 
-### Alternative: Physical Lab
+### Physical Lab (Alternative)
 
 If you have access to physical Cisco equipment:
 
@@ -170,7 +168,7 @@ If you have access to physical Cisco equipment:
 - Management interface with IP connectivity
 - Basic IOS command set (show commands, configuration)
 
-## Getting Help
+## 🆘 Getting Help
 
 ### Troubleshooting Common Issues
 
@@ -199,7 +197,7 @@ If you have access to physical Cisco equipment:
 - **DevNet Community**: [developer.cisco.com](https://developer.cisco.com)
 - **Netmiko Documentation**: [github.com/ktbyers/netmiko](https://github.com/ktbyers/netmiko)
 
-## Success Criteria
+## 🏆 Success Criteria
 
 By the end of this module, you should be able to:
 
@@ -210,7 +208,7 @@ By the end of this module, you should be able to:
 - [ ] Generate formatted reports and save them to files
 - [ ] Build a complete device inventory or configuration script
 
-## Next Steps
+## 🚀 Next Steps
 
 After completing this companion:
 
@@ -218,7 +216,7 @@ After completing this companion:
 2. **Capstone Project**: Build a comprehensive network management tool
 3. **Certification**: Consider Cisco DevNet Associate certification
 
-## Repository Notes
+## 📝 Repository Notes
 
 - **No sample data included** - you'll generate real data from your lab devices
 - **Starter files only** - complete the TODOs to make scripts functional
@@ -229,9 +227,9 @@ After completing this companion:
 
 **Ready to automate your network?** Start with [01_exploration](./01_exploration/) and begin your journey into network programmability!
 
----
+## 🎖 Module Quick Reference
 
-## Virtual Environments and Requirements
+### Virtual Environments and Requirements
 
 Virtual environments keep your project dependencies separate from your system Python.
 
@@ -256,13 +254,11 @@ source netmiko-env/bin/activate
 
 **Practice:** Set up your environment and verify netmiko imports successfully.
 
----
-
-## Introduction to Netmiko
+### Introduction to Netmiko
 
 Netmiko is a Python library that simplifies SSH connections to network devices.
 
-### Basic Import and Connection
+#### Basic Import and Connection
 
 ```python
 from netmiko import ConnectHandler
@@ -279,13 +275,11 @@ connection = ConnectHandler(**device)
 
 **Practice:** Import netmiko and create a device dictionary for your lab device.
 
----
-
-## Using help(), dir(), and inspect()
+### Using help(), dir(), and inspect()
 
 Before diving deeper into netmiko, learn to explore Python objects yourself.
 
-### Essential Exploration Tools
+#### Essential Exploration Tools
 
 ```python
 import netmiko
@@ -304,13 +298,11 @@ print(methods)
 
 **Practice:** Use `help()` to explore `ConnectHandler.send_command()` and find what exceptions it might raise.
 
----
-
-## Basic Connection with getpass
+### Basic Connection with getpass
 
 Never hardcode passwords! Use `getpass` for secure credential input.
 
-### Secure Connection Example
+#### Secure Connection Example
 
 ```python
 import getpass
@@ -335,13 +327,11 @@ connection.disconnect()
 
 **Practice:** Create a connection script using getpass. Test it with your lab device.
 
----
-
-## Show Commands and Raw Output
+### Show Commands and Raw Output
 
 Let's see what raw output looks like and why we need to format it.
 
-### Your First Commands
+#### Your First Commands
 
 ```python
 # After connecting...
@@ -356,13 +346,11 @@ Notice how the raw output is hard to read? That's why we need formatting tools.
 
 **Practice:** Run several show commands and observe the raw output format.
 
----
-
-## Pretty Printing Output
+### Pretty Printing Output
 
 Now let's make that output readable!
 
-### Using pprint
+#### Using pprint
 
 ```python
 from pprint import pprint
@@ -377,13 +365,11 @@ print(output)
 
 **Practice:** Format the output of multiple show commands for better readability
 
----
-
-## Configuration Commands
+### Configuration Commands
 
 Configuration commands modify device settings. Handle with care!
 
-### Basic Config Example
+#### Basic Config Example
 
 ```python
 # Single command
@@ -394,13 +380,11 @@ print(output)
 
 **Practice:** Configure a loopback interface on your lab device.
 
----
-
-## Working with Multiple Devices
+### Working with Multiple Devices
 
 Scale your automation by working with device lists.
 
-### Multiple Device Example
+#### Multiple Device Example
 
 ```python
 devices = [
@@ -418,17 +402,15 @@ for device in devices:
 
 **Practice:** Create a device list and gather version info from each.
 
----
-
-## Parsing with TextFSM and NTC-Templates
+### Parsing with TextFSM and NTC-Templates
 
 Raw text is hard to work with. Let's structure it!
 
-### Why Parse Output?
+#### Why Parse Output?
 
 Look at your raw `show version` output - it's just text. But what if you could get structured data instead?
 
-### Using NTC-Templates
+#### Using NTC-Templates
 
 ```python
 from ntc_templates.parse import parse_output
@@ -444,13 +426,11 @@ print(parsed[0]['version'])
 
 **Practice:** Parse `show ip interface brief` and extract just the interface names.
 
----
-
-## F-Strings and Basic Reports
+### F-Strings and Basic Reports
 
 Create professional output and save results to files.
 
-### Formatting with F-Strings
+#### Formatting with F-Strings
 
 ```python
 hostname = parsed[0]['hostname']
@@ -474,18 +454,14 @@ with open(f'{hostname}_report.txt', 'w') as f:
 
 **Practice:** Create a device inventory report and save it to a file.
 
----
-
-## Additional Resources
+## 🔗 Additional Resources
 
 - [Netmiko Documentation](https://github.com/ktbyers/netmiko)
 - [NTC-Templates Repository](https://github.com/networktocode/ntc-templates)  
 - [Python Regular Expression Guide](https://docs.python.org/3/library/re.html)
 - [F-String Documentation](https://docs.python.org/3/reference/lexical_analysis.html#f-strings)
 
----
-
-## Troubleshooting
+## 🔧 Troubleshooting
 
 ### Common Issues
 
