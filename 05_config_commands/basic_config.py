@@ -1,5 +1,5 @@
 """
-Module 05: Configuration Commands
+Section 05: Configuration Commands
 Safely make changes to network devices using automation
 
 TODO: Complete the configuration exercises with proper safety practices
