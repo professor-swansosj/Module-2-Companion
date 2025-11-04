@@ -1,5 +1,5 @@
 """
-Module 06: Parsing with NTC-Templates  
+Section 06: Parsing with NTC-Templates  
 Convert raw text output into structured data for easy processing
 
 TODO: Complete the parsing exercises to see structured data magic
