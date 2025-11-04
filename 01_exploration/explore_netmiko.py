@@ -1,5 +1,5 @@
 """
-Module 01: Object Exploration Foundations
+Section 01: Object Exploration Foundations
 Learn to explore Python libraries using built-in tools
 
 TODO: Complete the functions below to master object exploration
