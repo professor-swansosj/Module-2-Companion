@@ -6,11 +6,11 @@
 
 ## 🎯 What You'll Practice
 
-This companion supports Module 2 of the FSCJ Network Automation course. You'll build practical skills connecting to network devices, executing commands, and processing output - the foundation of network automation.
+This companion supports Module 2 of FSCJ's "CNT3105C: Software Defined Networking" course. You'll build practical skills connecting to network devices, executing commands, and processing output - the foundation of network automation.
 
 ## 📋 Prerequisites
 
-- **Module 1 Complete**: Python fundamentals (functions, objects, error handling, file I/O, JSON, YAML, CSV)
+- **CNT3105C Module 1 Completed**: Python fundamentals (functions, objects, error handling, file I/O, JSON, YAML, CSV)
 - **Networking Knowledge**: CCNA-level understanding of routers, switches, and CLI commands
 - **Lab Access**: SSH-enabled Cisco device (physical lab or DevNet Sandbox)
 - **Python Development Environment**: Python 3.7+ with virtual environment support
@@ -38,43 +38,23 @@ pip install -r requirements.txt
 python -c "import netmiko; print('Netmiko ready!')"
 ```
 
-## 📚 Learning Objectives
+## 📖 Table of Contents: Module 2 Companion Quick Reference
 
-By the end of this module, you will be able to:
+1. [Virtual Environments and Requirements](#virtual-environments-and-requirements)
+2. [Introduction to Netmiko](#introduction-to-netmiko)
+3. [Using help(), dir(), and inspect()](#using-help-dir-and-inspect)
+4. [Basic Connection with getpass](#basic-connection-with-getpass)
+5. [Show Commands and Raw Output](#show-commands-and-raw-output)
+6. [Pretty Printing Output](#pretty-printing-output)
+7. [Configuration Commands](#configuration-commands)
+8. [Working with Multiple Devices](#working-with-multiple-devices)
+9. [Parsing with TextFSM and NTC-Templates](#parsing-with-textfsm-and-ntc-templates)
+10. [F-Strings and Basic Reports](#f-strings-and-basic-reports)
 
-- Set up Python virtual environments for network projects
-- Connect to network devices using Netmiko
-- Execute show and configuration commands
-- Handle raw output and format results
-- Parse structured data from network commands
-- Create basic network automation scripts
-
-## 📖 Table of Contents
-
-1. [Learning Path](#-learning-path)
-2. [Virtual Environments and Requirements](#virtual-environments-and-requirements)
-3. [Introduction to Netmiko](#introduction-to-netmiko)
-4. [Using help(), dir(), and inspect()](#using-help-dir-and-inspect)
-5. [Basic Connection with getpass](#basic-connection-with-getpass)
-6. [Show Commands and Raw Output](#show-commands-and-raw-output)
-7. [Pretty Printing Output](#pretty-printing-output)
-8. [Configuration Commands](#configuration-commands)
-9. [Working with Multiple Devices](#working-with-multiple-devices)
-10. [Parsing with TextFSM and NTC-Templates](#parsing-with-textfsm-and-ntc-templates)
-11. [F-Strings and Basic Reports](#f-strings-and-basic-reports)
-
-## ⏰ Estimated Time
-
-**Total: 8-12 hours** across one week
-
-- Initial setup and exploration: 2 hours
-- Connection and command practice: 3-4 hours  
-- Parsing and formatting: 2-3 hours
-- Advanced techniques and projects: 3-4 hours
 
 ## 🗂 Learning Path
 
-Work through these topics sequentially. Each builds on the previous:
+Work through these sections sequentially. Each builds on the previous:
 
 ### [01_exploration](./01_exploration/) - Object Discovery (1 hour)
 
@@ -134,7 +114,7 @@ Work through these topics sequentially. Each builds on the previous:
 
 ## 🎯 Practice Callouts
 
-Each module follows this pattern:
+Each companion section follows this pattern:
 
 1. **Read the README** - Understand concepts and see minimal examples
 2. **Complete the starter files** - Fill in TODOs to make scripts functional  
@@ -220,14 +200,14 @@ After completing this companion:
 
 - **No sample data included** - you'll generate real data from your lab devices
 - **Starter files only** - complete the TODOs to make scripts functional
-- **Progressive difficulty** - each module builds on previous concepts
+- **Progressive difficulty** - each section builds on previous concepts
 - **Real-world focus** - all examples mirror actual network operations
 
 ---
 
 **Ready to automate your network?** Start with [01_exploration](./01_exploration/) and begin your journey into network programmability!
 
-## 🎖 Module Quick Reference
+## 🎖 Module 2 Companion Quick Reference
 
 ### Virtual Environments and Requirements
 
