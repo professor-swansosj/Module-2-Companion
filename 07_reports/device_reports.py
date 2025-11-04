@@ -1,5 +1,5 @@
 """
-Module 07: Professional Reports with F-Strings
+Section 07: Professional Reports with F-Strings
 Create polished, professional reports from your network data
 
 TODO: Complete the reporting exercises to build impressive documentation
