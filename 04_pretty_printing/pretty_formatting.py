@@ -1,5 +1,5 @@
 """
-Module 04: Pretty Printing and Output Formatting
+Section 04: Pretty Printing and Output Formatting
 Transform messy raw output into professional, readable reports
 
 TODO: Complete the formatting exercises to make output beautiful
