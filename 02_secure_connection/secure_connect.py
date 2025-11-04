@@ -1,5 +1,5 @@
 """
-Module 02: Secure SSH Connection Foundations
+Section 02: Secure SSH Connection Foundations
 Build your first network automation connection using secure practices
 
 TODO: Import the modules you need and complete the connection
