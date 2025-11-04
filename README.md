@@ -38,6 +38,69 @@ pip install -r requirements.txt
 python -c "import netmiko; print('Netmiko ready!')"
 ```
 
+## 🗂 Learning Path
+
+Work through these sections sequentially. Each builds on the previous:
+
+### [Section 01: Object Exploration with Python Built-ins](./01_exploration/) -  (1 hour)
+**📁 Practice Location:** `01_exploration/explore_netmiko.py`
+
+**Why this matters:** Before using any library, you need to explore its capabilities.
+
+- Use `dir()`, `help()`, and `inspect()` to understand objects
+- Discover Netmiko's methods and capabilities
+- Learn self-sufficient exploration techniques
+
+### [Section 02: Secure SSH Connections](./02_secure_connection/) - (1-2 hours)
+**📁 Practice Location:** `02_secure_connection/secure_connect.py`
+
+**Why this matters:** Security is fundamental - never hardcode passwords.
+
+- Implement secure credential handling with `getpass`
+- Establish SSH connections to network devices
+- Test connectivity and handle authentication
+
+### [Section 03: Show Commands and Raw Output](./03_show_commands/) - (2 hours)
+
+**Why this matters:** Most automation starts with gathering device information.
+
+- Execute read-only show commands
+- Understand raw output challenges
+- Run commands efficiently across devices
+
+### [Section 04: Pretty Printing and Output Formatting](./04_pretty_printing/) - (1 hour)
+
+**Why this matters:** Raw output is hard to read and process.
+
+- Format command output for readability
+- Use Python's pprint for structured data
+- Create professional-looking reports
+
+### [Section 05: Configuration Commands](./05_config_commands/) - (2 hours)
+
+**Why this matters:** Automation's power is in making changes safely and consistently.
+
+- Execute configuration commands securely
+- Handle configuration mode properly
+- Implement safety checks and rollback
+
+### [Section 06: Parsing with NTC-Templates](./06_parsing/) - (2-3 hours)
+
+**Why this matters:** Converting text to data enables programmatic processing.
+
+- Parse raw text output into structured data
+- Use regular expressions for pattern matching
+- Leverage NTC-Templates for common commands
+
+### [Section 07: Professional Reports with F-Strings](./07_reports/) - (1-2 hours)
+
+**Why this matters:** Clear reports communicate results effectively.
+
+- Generate formatted reports with f-strings
+- Save results to files
+- Create dashboards and summaries
+  
+---
 ## 📖 Table of Contents: Module 2 Companion Quick Reference
 
 1. [Virtual Environments and Requirements](#virtual-environments-and-requirements)
@@ -50,67 +113,7 @@ python -c "import netmiko; print('Netmiko ready!')"
 8. [Working with Multiple Devices](#working-with-multiple-devices)
 9. [Parsing with TextFSM and NTC-Templates](#parsing-with-textfsm-and-ntc-templates)
 10. [F-Strings and Basic Reports](#f-strings-and-basic-reports)
-
-
-## 🗂 Learning Path
-
-Work through these sections sequentially. Each builds on the previous:
-
-### [01_exploration](./01_exploration/) - Object Discovery (1 hour)
-
-**Why this matters:** Before using any library, you need to explore its capabilities.
-
-- Use `dir()`, `help()`, and `inspect()` to understand objects
-- Discover Netmiko's methods and capabilities
-- Learn self-sufficient exploration techniques
-
-### [02_secure_connection](./02_secure_connection/) - SSH Authentication (1-2 hours)  
-
-**Why this matters:** Security is fundamental - never hardcode passwords.
-
-- Implement secure credential handling with `getpass`
-- Establish SSH connections to network devices
-- Test connectivity and handle authentication
-
-### [03_show_commands](./03_show_commands/) - Command Execution (2 hours)
-
-**Why this matters:** Most automation starts with gathering device information.
-
-- Execute read-only show commands
-- Understand raw output challenges
-- Run commands efficiently across devices
-
-### [04_pretty_printing](./04_pretty_printing/) - Output Formatting (1 hour)
-
-**Why this matters:** Raw output is hard to read and process.
-
-- Format command output for readability
-- Use Python's pprint for structured data
-- Create professional-looking reports
-
-### [05_config_commands](./05_config_commands/) - Configuration Changes (2 hours)
-
-**Why this matters:** Automation's power is in making changes safely and consistently.
-
-- Execute configuration commands securely
-- Handle configuration mode properly
-- Implement safety checks and rollback
-
-### [06_parsing](./06_parsing/) - Structured Data (2-3 hours)
-
-**Why this matters:** Converting text to data enables programmatic processing.
-
-- Parse raw text output into structured data
-- Use regular expressions for pattern matching
-- Leverage NTC-Templates for common commands
-
-### [07_reports](./07_reports/) - Professional Output (1-2 hours)
-
-**Why this matters:** Clear reports communicate results effectively.
-
-- Generate formatted reports with f-strings
-- Save results to files
-- Create dashboards and summaries
+---
 
 ## 🎯 Practice Callouts
 
