@@ -43,7 +43,6 @@ python -c "import netmiko; print('Netmiko ready!')"
 Work through these sections sequentially. Each builds on the previous:
 
 ### [Section 01: Object Exploration with Python Built-ins](./01_exploration/) -  (1 hour)
-**📁 Practice Location:** `01_exploration/explore_netmiko.py`
 
 **Why this matters:** Before using any library, you need to explore its capabilities.
 
@@ -52,7 +51,6 @@ Work through these sections sequentially. Each builds on the previous:
 - Learn self-sufficient exploration techniques
 
 ### [Section 02: Secure SSH Connections](./02_secure_connection/) - (1-2 hours)
-**📁 Practice Location:** `02_secure_connection/secure_connect.py`
 
 **Why this matters:** Security is fundamental - never hardcode passwords.
 
