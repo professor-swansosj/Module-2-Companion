@@ -1,5 +1,5 @@
 """
-Module 03: Show Commands and Raw Output
+Section 03: Show Commands and Raw Output
 Execute show commands and see why raw text is challenging
 
 TODO: Build on your secure connection skills to explore command output
